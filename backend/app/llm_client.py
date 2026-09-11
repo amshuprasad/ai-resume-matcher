@@ -34,7 +34,6 @@ def call_ollama_json(prompt: str, num_predict: int = 500, retries: int = 2):
             data = response.json()
 
             raw = data["response"].strip()
-            print(f"RAW OLLAMA RESPONSE (attempt {attempt + 1}):", repr(raw))
             last_raw = raw
 
             raw = re.sub(r"^```json\s*|\s*```$", "", raw.strip())

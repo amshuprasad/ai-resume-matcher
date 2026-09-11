@@ -6,6 +6,7 @@ from app.extraction import extract_text
 from app.ai_extraction import (extract_skills_with_ai,extract_experience_with_ai,generate_ai_analysis)
 from app.matching import (semantic_score,calculate_skill_match,calculate_experience_score)
 from pydantic import BaseModel
+from app.logger import logger
 import asyncio
 
 app = FastAPI(
@@ -56,9 +57,6 @@ async def match(
     jd = extract_text(jd_file.filename or "", jd_bytes)
     cv = extract_text(cv_file.filename or "", cv_bytes)
 
-    print("CV TEXT LENGTH:", len(cv))
-    print("CV TEXT PREVIEW:", repr(cv[:800]))
-
     # --- Validate extracted text ---
     if len(jd.strip()) < MIN_TEXT_LENGTH:
         raise HTTPException(status_code=400, detail="Could not extract enough text from JD.")
@@ -67,19 +65,19 @@ async def match(
         raise HTTPException(status_code=400, detail="Could not extract enough text from CV.")
 
     # --- Dynamic skill extraction ---
-    print("Extracting JD skills...")
+    logger.info("Extracting JD skills...")
     jd_skills = extract_skills_with_ai(jd)
-    print("JD skills:", jd_skills)
+    logger.info("JD skills: %s", jd_skills)
 
-    print("Extracting CV skills...")
+    logger.info("Extracting CV skills...")
     cv_skills = extract_skills_with_ai(cv)
-    print("CV skills:", cv_skills)
+    logger.info("CV skills: %s", cv_skills)
 
     # --- Experience extraction ---
-    print("Extracting JD experience...")
+    logger.info("Extracting JD experience...")
     jd_years = extract_experience_with_ai(jd)
 
-    print("Extracting CV experience...")
+    logger.info("Extracting CV experience...")
     cv_years = extract_experience_with_ai(cv)
 
     # --- Skill match ---
