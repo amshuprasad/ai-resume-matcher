@@ -1,4 +1,4 @@
-# AI Resume Matcher — Free / Self-Hosted
+# AI Resume Matcher
 
 A full-stack JD/CV matching application using:
 - Next.js + React + Tailwind CSS
@@ -6,7 +6,6 @@ A full-stack JD/CV matching application using:
 - PyMuPDF + python-docx
 - Sentence Transformers
 - Ollama + Gemma 3 (optional AI explanation)
-- No paid AI API
 
 ## 1. Prerequisites
 
@@ -60,22 +59,3 @@ Frontend: http://localhost:3000
 8. If Ollama is running, it generates an explanation and recommendations.
 
 The core matching does NOT require an LLM, so the application still works if Ollama is unavailable.
-
-## 5. Public URL
-
-For a truly unlimited AI workload without paying a model API, keep Ollama/FastAPI running on hardware you control and expose the backend securely through a tunnel/reverse proxy. Do NOT expose Ollama port 11434 directly to the public internet.
-
-The Next.js frontend can be deployed to a free Next.js host such as Vercel. Set:
-
-NEXT_PUBLIC_API_URL=https://YOUR_PUBLIC_BACKEND_URL
-
-Then redeploy.
-
-## 6. Important
-
-"Unlimited and free" means no per-request AI API bill when using your own machine. Public cloud compute is not guaranteed to be unlimited/free.
-
-For production, add authentication, rate limiting, file-size limits, virus scanning, HTTPS, and privacy/retention controls before accepting real resumes.
-
-
-npm install jspdf
